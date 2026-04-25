@@ -1,0 +1,15 @@
+artifact_uri: file:///content/tourismpackageprediction/tourismpackageprediction/mlruns/952339870286650922/323632cce875421ebb0a85d0c9ccbbbd/artifacts
+end_time: 1777123341095
+entry_point_name: ''
+experiment_id: '952339870286650922'
+lifecycle_stage: active
+run_id: 323632cce875421ebb0a85d0c9ccbbbd
+run_name: RandomForest_Hyperparameter_Tuning
+run_uuid: 323632cce875421ebb0a85d0c9ccbbbd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1777123260124
+status: 3
+tags: []
+user_id: root

@@ -107,13 +107,19 @@ with st.form("prediction_form"):
         # Encode categorical features - MUST match the preprocessing in data_preparation.py
         # The order and mapping of categories must be consistent
         # In data_preparation.py, these were encoded using LabelEncoder
+        # 'TypeofContact': Company Invited -> 0, Self Inquiry -> 1, Unknown -> 2
+        # 'Gender': Female -> 0, Male -> 1, Unknown -> 2
+        # 'ProductPitched': Basic -> 0, Deluxe -> 1, King -> 2, Standard -> 3, Super Deluxe -> 4
+        # 'MaritalStatus': Divorced -> 0, Married -> 1, Single -> 2
+        # 'Designation': AVP -> 0, CEO -> 1, Executive -> 2, Manager -> 3, Senior Manager -> 4, VP -> 5
+        # 'Occupation': Freelancer -> 0, Large Business -> 1, Salaried -> 2, Small Business -> 3, Unknown -> 4
 
-        type_of_contact_mapping = {"Company Invited": 0, "Self Inquiry": 1}
-        gender_mapping = {"Female": 0, "Male": 1} # Assuming 'Unknown' is not an option in the UI for Gender
+        type_of_contact_mapping = {"Company Invited": 0, "Self Inquiry": 1, "Unknown": 2}
+        gender_mapping = {"Female": 0, "Male": 1, "Unknown": 2}
         product_pitched_mapping = {"Basic": 0, "Deluxe": 1, "King": 2, "Standard": 3, "Super Deluxe": 4}
         marital_status_mapping = {"Divorced": 0, "Married": 1, "Single": 2}
         designation_mapping = {"AVP": 0, "CEO": 1, "Executive": 2, "Manager": 3, "Senior Manager": 4, "VP": 5}
-        occupation_mapping = {"Freelancer": 0, "Large Business": 1, "Salaried": 2, "Small Business": 3} # Assuming 'Unknown' is not an option in the UI for Occupation
+        occupation_mapping = {"Freelancer": 0, "Large Business": 1, "Salaried": 2, "Small Business": 3, "Unknown": 4}
 
         input_data['TypeofContact'] = input_data['TypeofContact'].map(type_of_contact_mapping)
         input_data['Gender'] = input_data['Gender'].map(gender_mapping)
@@ -122,13 +128,10 @@ with st.form("prediction_form"):
         input_data['Designation'] = input_data['Designation'].map(designation_mapping)
         input_data['Occupation'] = input_data['Occupation'].map(occupation_mapping)
 
-        # Ensure all columns are present and in the same order as Xtrain
-        # The column order is derived from Xtrain.columns.tolist() in the notebook
-        expected_columns = ['Age', 'TypeofContact', 'CityTier', 'DurationOfPitch', 'Occupation', 'Gender', 'NumberOfPersonVisiting', 'PreferredPropertyStar', 'MaritalStatus', 'NumberOfTrips', 'Passport', 'OwnCar', 'NumberOfChildrenVisiting', 'Designation', 'MonthlyIncome', 'PitchSatisfactionScore', 'ProductPitched', 'NumberOfFollowups']
-
-        # Reindex input_data to ensure column order matches training data
-        input_data = input_data[expected_columns]
-
+        # CRITICAL: Force the feature order to match model.feature_names_in_
+        if hasattr(model, "feature_names_in_"):
+            input_data = input_data[model.feature_names_in_]
+        
         prediction = model.predict(input_data)[0]
         prediction_proba = model.predict_proba(input_data)[:, 1][0]
 
@@ -141,6 +144,5 @@ with st.form("prediction_form"):
         st.write("""
             **Note**: This is a predictive model's output and should be used as guidance.
             Further analysis and business context are always recommended.
-        """
-)
+        """)
 

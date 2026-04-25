@@ -1,0 +1,15 @@
+artifact_uri: file:///content/tourismpackageprediction/tourismpackageprediction/mlruns/952339870286650922/4511f6ab7bff492294df91747d76c674/artifacts
+end_time: 1777123341093
+entry_point_name: ''
+experiment_id: '952339870286650922'
+lifecycle_stage: active
+run_id: 4511f6ab7bff492294df91747d76c674
+run_name: Best_RandomForest_Model_Evaluation
+run_uuid: 4511f6ab7bff492294df91747d76c674
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1777123331154
+status: 3
+tags: []
+user_id: root
